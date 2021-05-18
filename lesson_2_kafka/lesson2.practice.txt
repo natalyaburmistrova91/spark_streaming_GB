@@ -1,0 +1,25 @@
+Подключиться к серверу и выполнить следующие команды
+
+# create topic
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --create --topic lesson2_topic --zookeeper bigdataanalytics2-worker-shdpt-v31-1-2:2181 --partitions 3 --replication-factor 2 --config retention.ms=-1
+
+# update topic partitions, configuration, settings
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics2-worker-shdpt-v31-1-2:2181 --alter --config retention.ms=17280000000 --topic lesson2_topic
+
+# update topic partitions, configuration, settings
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics2-worker-shdpt-v31-1-2:2181 --alter --config retention.ms=1 --topic lesson2_topic
+
+# delete topic
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-topics.sh --zookeeper bigdataanalytics2-worker-shdpt-v31-1-2:2181 --delete --topic lesson2_topic
+
+# start console consumer
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-consumer.sh --topic lesson2_topic --from-beginning --bootstrap-server bigdataanalytics2-worker-shdpt-v31-1-2:6667 
+
+# start console producer
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-console-producer.sh --topic lesson2_topic --broker-list bigdataanalytics2-worker-shdpt-v31-1-2:6667
+
+# read topic’s partitions offsets
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list bigdataanalytics2-worker-shdpt-v31-1-2:6667 --topic mytopic --time -2
+
+# messages count in a topic
+/usr/hdp/3.1.4.0-315/kafka/bin/kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list bigdataanalytics2-worker-shdpt-v31-1-2:6667 --topic lesson2_topic --time -1 --offsets 1 | awk -F ":" '{sum += $3} END {print sum}'
